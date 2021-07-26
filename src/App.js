@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useEffect, useReducer } from "react";
+import { Container } from "@material-ui/core";
+import AddJob from "./components/AddJob";
+import MyTable from "./components/MyTable";
+import Quote from "./components/Quote";
+import Status from "./components/Status";
+import "./style.css";
+export const ACTIONS = {
+  ADDJOB: "ADDJOB",
+};
+const reducer = (jobs, action) => {
+  switch (action.type) {
+    case ACTIONS.ADDJOB:
+      return [...jobs, action.payload];
+    default:
+      return jobs;
+  }
+};
 function App() {
+  const [jobs, dispatch] = useReducer(
+    reducer,
+    JSON.parse(localStorage.getItem("jobs")) || []
+  );
+
+  useEffect(() => {
+    localStorage.setItem("jobs", JSON.stringify(jobs));
+  }, [jobs]);
+
+  const addJob = (newJob) => {
+    console.log("sd");
+    dispatch({ type: ACTIONS.ADDJOB, payload: newJob });
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Quote />
+      <AddJob addJob={addJob} />
+      <Status jobs={jobs} />
+      <MyTable jobs={jobs} />
+    </Container>
   );
 }
 
