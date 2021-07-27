@@ -19,7 +19,7 @@ const INITIAL_STATE = {
   status: "",
   date: "",
 };
-const AddJob = ({ addJob }) => {
+const AddJob = ({ addJob, job, updateJob }) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       height: "100vh",
@@ -34,6 +34,9 @@ const AddJob = ({ addJob }) => {
     textField: {
       width: "48%",
       marginTop: "10px",
+    },
+    bt: {
+      marginBottom: "20px",
     },
   }));
   const [open, setOpen] = React.useState(false);
@@ -55,18 +58,34 @@ const AddJob = ({ addJob }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    let newJob = {
-      ...props,
-      id: nanoid(),
-    };
-    addJob(newJob);
-    setProps(INITIAL_STATE);
+    if (!job) {
+      let newJob = {
+        ...props,
+        id: nanoid(),
+      };
+      addJob(newJob);
+      setProps(INITIAL_STATE);
+    } else {
+      updateJob(job.id, props.status);
+    }
   };
   return (
     <div>
-      <Fab color="primary" aria-label="add" onClick={handleClickOpen}>
-        <AddIcon />
-      </Fab>
+      {!job ? (
+        <Fab
+          color="primary"
+          className={classes.bt}
+          aria-label="add"
+          onClick={handleClickOpen}
+        >
+          <AddIcon />
+        </Fab>
+      ) : (
+        <Button onClick={handleClickOpen} color="primary" variant="contained">
+          Update
+        </Button>
+      )}
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -74,7 +93,7 @@ const AddJob = ({ addJob }) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          Applied some where new?
+          {!job ? "Applied some where new?" : "Update staus"}
         </DialogTitle>
         <DialogContent>
           <form
@@ -82,34 +101,72 @@ const AddJob = ({ addJob }) => {
             onSubmit={(e) => handleSubmit(e)}
             noValidate
           >
-            <TextField
-              value={props.company}
-              onChange={(e) => handleChange(e)}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="Company"
-              label="Company"
-              name="company"
-              autoComplete="company"
-              autoFocus
-            />
-            <TextField
-              value={props.position}
-              onChange={(e) => handleChange(e)}
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="position"
-              label="Position"
-              name="position"
-              autoComplete="Position"
-              autoFocus
-            />
-            <Box display="flex" justifyContent="space-around">
-              <FormControl variant="outlined" className={classes.textField}>
+            {!job ? (
+              <>
+                <TextField
+                  value={props.company}
+                  onChange={(e) => handleChange(e)}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="Company"
+                  label="Company"
+                  name="company"
+                  autoComplete="company"
+                  autoFocus
+                />
+                <TextField
+                  value={props.position}
+                  onChange={(e) => handleChange(e)}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="position"
+                  label="Position"
+                  name="position"
+                  autoComplete="Position"
+                  autoFocus
+                />
+                <Box display="flex" justifyContent="space-around">
+                  <FormControl variant="outlined" className={classes.textField}>
+                    <InputLabel>Status</InputLabel>
+                    <Select
+                      onChange={(e) => handleChange(e)}
+                      value={props.status}
+                      label="Status"
+                      name="status"
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value={"WFR"}>Waiting for reply</MenuItem>
+                      <MenuItem value={"WFI"}>Interview</MenuItem>
+                      <MenuItem value={"RJ"}>Rejected</MenuItem>
+                      <MenuItem value={"ACC"}>Accepted</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <TextField
+                    onChange={(e) => handleChange(e)}
+                    value={props.value}
+                    id="date"
+                    label="Birthday"
+                    type="date"
+                    name="date"
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </Box>
+              </>
+            ) : (
+              <FormControl
+                variant="outlined"
+                fullWidth={true}
+                className={classes.fullfiend}
+              >
                 <InputLabel>Status</InputLabel>
                 <Select
                   onChange={(e) => handleChange(e)}
@@ -126,19 +183,7 @@ const AddJob = ({ addJob }) => {
                   <MenuItem value={"ACC"}>Accepted</MenuItem>
                 </Select>
               </FormControl>
-              <TextField
-                onChange={(e) => handleChange(e)}
-                value={props.value}
-                id="date"
-                label="Birthday"
-                type="date"
-                name="date"
-                className={classes.textField}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Box>
+            )}
 
             <Button
               type="submit"
@@ -147,7 +192,7 @@ const AddJob = ({ addJob }) => {
               color="primary"
               className={classes.submit}
             >
-              Add job
+              {!job ? "Add job" : "Update job"}
             </Button>
           </form>
         </DialogContent>

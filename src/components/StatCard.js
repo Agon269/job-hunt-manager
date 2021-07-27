@@ -27,7 +27,7 @@ const StatCard = ({ head, color, number }) => {
           {head}
         </Typography>
         <Typography className={classes.stat} variant="h4" component="p">
-          {number}
+          {number === undefined ? 0 : number}
         </Typography>
       </CardContent>
     </Card>
