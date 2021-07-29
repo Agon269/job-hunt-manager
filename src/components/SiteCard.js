@@ -6,10 +6,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 const SiteCard = ({ name, link, deleteSite, id }) => {
   const useStyles = makeStyles((theme) => ({
     myCard: {
-      minWidth: "300px",
+      minWidth: "280px",
       marginBottom: "20px",
+      marginLeft: "10px",
     },
-    floatingBtn: {},
   }));
   const classes = useStyles();
 

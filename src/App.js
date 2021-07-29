@@ -6,6 +6,7 @@ import Quote from "./components/Quote";
 import Status from "./components/Status";
 import "./style.css";
 import WebSites from "./components/WebSites";
+
 export const ACTIONS = {
   ADDJOB: "ADDJOB",
   DELETEJOB: "DELTEJOB",
@@ -52,7 +53,7 @@ function App() {
       <WebSites />
       {jobs.length === 0 ? (
         <Typography variant="h4" style={{ color: "white" }}>
-          Add your applications
+          Add your job applications.
         </Typography>
       ) : (
         <Status jobs={jobs} />

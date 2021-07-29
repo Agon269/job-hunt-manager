@@ -114,7 +114,6 @@ const AddJob = ({ addJob, job, updateJob }) => {
                   label="Company"
                   name="company"
                   autoComplete="company"
-                  autoFocus
                 />
                 <TextField
                   value={props.position}
@@ -127,7 +126,6 @@ const AddJob = ({ addJob, job, updateJob }) => {
                   label="Position"
                   name="position"
                   autoComplete="Position"
-                  autoFocus
                 />
                 <Box display="flex" justifyContent="space-around">
                   <FormControl variant="outlined" className={classes.textField}>

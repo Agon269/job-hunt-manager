@@ -93,21 +93,20 @@ const AddSite = ({ addSite }) => {
               id="name"
               label="name"
               name="name"
-              autoComplete="name"
-              autoFocus
+              autoComplete="web site name"
             />
             <TextField
               value={props.link}
               onChange={(e) => handleChange(e)}
               variant="outlined"
               margin="normal"
+              placeholder="https://something.com"
               required
               fullWidth
               id="link"
               label="link"
               name="link"
               autoComplete="link"
-              autoFocus
             />
 
             <Button

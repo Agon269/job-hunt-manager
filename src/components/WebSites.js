@@ -7,7 +7,8 @@ const useStyles = makeStyles((theme) => ({
   statContainer: {
     flexWrap: "wrap",
     marginTop: "40px",
-    justifyContent: "space-between",
+
+    justifyContent: "flex-start",
   },
   txt: {
     color: "white",
